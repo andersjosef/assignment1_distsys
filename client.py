@@ -21,34 +21,51 @@ class Assignment1Client(object):
         # bind the client and the server
         self.stub = pb2_grpc.Assignment1Stub(self.channel)
 
-    def get_url(self, message):
-        """
-        Client function to call the rpc for Calculate
-        """
-        message = pb2.Message(message=message)
-        responses = self.stub.Calculate(message)
-        for response in responses:
-            yield response
 
-def make_dictionary():
-    pass
 
 # get the files from the computer
 def send_files():
     string = ""
     for file in glob.glob("input/file*.txt"):
+        print(file)
         with open(file, "r") as f:
             string += f.read()
-            run(string)
+            run_calculate(string)
 
 
-def run(string):
+def run_calculate(string):
     global liste
-    client = Assignment1Client()
-    result = client.get_url(message=string)
-    for t in result:
-        liste.append(t.message + ": " + str(t.num))
+    global client
+    # client = Assignment1Client()
+    message = pb2.Message(message=string)
+    responses = client.stub.Calculate(message)
+    for response in responses:
+        liste.append(response.message + ": " + str(response.num))
+
+def get_words_and_nums(liste):
+    for entry in liste:
+        message = pb2.MessageResponse()
+        entry = entry.split(": ")
+        message.message = entry[0]
+        message.num = int(entry[1])
+        yield message
+
+
+
+
+def run_combine():
+    global liste
+    global client
+    # client = Assignment1Client()
+
+    responses = client.stub.Combine(get_words_and_nums(liste))
+    liste = []
+    for response in responses:
+        liste.append(response.message + ": " + str(response.num))
+
 if __name__ == '__main__':
+    client = Assignment1Client()
     liste = list()
     send_files()
+    run_combine()
     print(liste)

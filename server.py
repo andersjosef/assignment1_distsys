@@ -7,8 +7,8 @@ import assignment1_pb2 as pb2
 
 class Assignment1Service(pb2_grpc.Assignment1Servicer):
 
-    def Calculate(self, request_iterator, context):
-        message = request_iterator
+    def Calculate(self, request, context):
+        message = request
         
         response = pb2.MessageResponse()
         split_words = message.message.strip().split()
@@ -20,6 +20,25 @@ class Assignment1Service(pb2_grpc.Assignment1Servicer):
                 word = word[0:-1]
             response.message = word.strip()
             response.num = 1
+            yield response
+    
+    def Combine(self, request_iterator, context):
+        print("starting combine...")
+        ordbok = dict()
+        for msg in request_iterator:
+            if msg.message.strip() in ordbok:
+                ordbok[msg.message] += msg.num
+            else:
+                ordbok[msg.message] = msg.num
+        print(ordbok)
+        
+        response = pb2.MessageResponse()
+        
+        sorted_count = dict(sorted(ordbok.items(), key=lambda x:x[1], reverse=True))
+        # returns every word and number 1 from 
+        for key in sorted_count:
+            response.message = key
+            response.num = sorted_count[key]
             yield response
 
 

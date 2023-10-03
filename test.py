@@ -25,10 +25,10 @@ if __name__ == "__main__":
     my_list = list()
     for k in my_dict:
         my_list.append(f"{k}: {my_dict[k]}")
-    # print(my_list)
+    print(my_list)
 
-    test_dic = dict()
-    for i in my_list:
-        i = i.split(": ")
-        print(i)
-    print(test_dic)
+    # test_dic = dict()
+    # for i in my_list:
+    #     i = i.split(": ")
+    #     print(i)
+    # print(test_dic)
