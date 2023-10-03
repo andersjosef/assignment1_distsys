@@ -25,11 +25,10 @@ class Assignment1Client(object):
 
 # get the files from the computer
 def send_files():
-    string = ""
     for file in glob.glob("input/file*.txt"):
         print(file)
         with open(file, "r") as f:
-            string += f.read()
+            string = f.read()
             run_calculate(string)
 
 
@@ -67,5 +66,6 @@ if __name__ == '__main__':
     client = Assignment1Client()
     liste = list()
     send_files()
+    # print(liste)
     run_combine()
-    print(liste)
+    print("freq =", liste)
