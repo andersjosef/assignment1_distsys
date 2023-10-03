@@ -19,6 +19,16 @@ class Assignment1Stub(object):
                 request_serializer=assignment1__pb2.Message.SerializeToString,
                 response_deserializer=assignment1__pb2.MessageResponse.FromString,
                 )
+        self.Calculate = channel.unary_stream(
+                '/assignment1.Assignment1/Calculate',
+                request_serializer=assignment1__pb2.Message.SerializeToString,
+                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                )
+        self.Combine = channel.stream_stream(
+                '/assignment1.Assignment1/Combine',
+                request_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                )
 
 
 class Assignment1Servicer(object):
@@ -33,12 +43,34 @@ class Assignment1Servicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Calculate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Combine(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_Assignment1Servicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetServerResponse': grpc.unary_stream_rpc_method_handler(
                     servicer.GetServerResponse,
                     request_deserializer=assignment1__pb2.Message.FromString,
+                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+            ),
+            'Calculate': grpc.unary_stream_rpc_method_handler(
+                    servicer.Calculate,
+                    request_deserializer=assignment1__pb2.Message.FromString,
+                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+            ),
+            'Combine': grpc.stream_stream_rpc_method_handler(
+                    servicer.Combine,
+                    request_deserializer=assignment1__pb2.MessageResponse.FromString,
                     response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
             ),
     }
@@ -64,6 +96,40 @@ class Assignment1(object):
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/assignment1.Assignment1/GetServerResponse',
             assignment1__pb2.Message.SerializeToString,
+            assignment1__pb2.MessageResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Calculate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/assignment1.Assignment1/Calculate',
+            assignment1__pb2.Message.SerializeToString,
+            assignment1__pb2.MessageResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Combine(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/assignment1.Assignment1/Combine',
+            assignment1__pb2.MessageResponse.SerializeToString,
             assignment1__pb2.MessageResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

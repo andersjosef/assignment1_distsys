@@ -7,18 +7,19 @@ import assignment1_pb2 as pb2
 
 class Assignment1Service(pb2_grpc.Assignment1Servicer):
 
-    def GetServerResponse(self, request_iterator, context):
-        print("get server response")
-        print("first one",request_iterator)
+    def Calculate(self, request_iterator, context):
         message = request_iterator
-        print(message)
         
         response = pb2.MessageResponse()
         split_words = message.message.strip().split()
+
+        # returns every word and number 1 from 
         for word in split_words:
-            response.message = word
+            #checking for characters that are not letters , ? : etc.
+            while word[-1].lower() not in "abcdefghijklmnopqrstuvwxyzæøå":
+                word = word[0:-1]
+            response.message = word.strip()
             response.num = 1
-        # print("response, serverside: ", response)
             yield response
 
 
