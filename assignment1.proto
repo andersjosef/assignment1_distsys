@@ -5,9 +5,9 @@ package assignment1;
 
 service FrequencyCalculator {
    
-   rpc Calculate(Message) returns (stream MessageResponse) {}
+   rpc Calculate(Message) returns (Map) {}
 
-   rpc Combine(stream MessageResponse) returns (stream MessageResponse) {}
+   rpc Combine(stream MessageResponse) returns (Map) {}
 }
 
 message Message {
@@ -16,4 +16,7 @@ message Message {
 message MessageResponse {
   string message = 1;
   int32 num = 2;
+}
+message Map {
+  map<string, int32> dict = 1;
 }

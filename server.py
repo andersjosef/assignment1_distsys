@@ -12,17 +12,22 @@ class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
 
         message = request
         
-        response = pb2.MessageResponse()
         split_words = message.message.strip().split()
 
+        tmp_dict = dict()
         # returns every word and number 1 from 
         for word in split_words:
+            word = word.strip()
             #checking for characters that are not letters , ? : etc.
             while word[-1].lower() not in "abcdefghijklmnopqrstuvwxyzæøå":
                 word = word[0:-1]
-            response.message = word.strip()
-            response.num = 1
-            yield response
+            if word in tmp_dict:
+                tmp_dict[word] += 1
+            else:
+                tmp_dict[word] = 1
+
+        response = pb2.Map(dict=tmp_dict)
+        return response
     
     def Combine(self, request_iterator, context):
         print("starting combine...")
@@ -35,12 +40,9 @@ class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
         
         response = pb2.MessageResponse()
         
-        sorted_count = dict(sorted(ordbok.items(), key=lambda x:x[1], reverse=True))
         # returns every word and number 1 from 
-        for key in sorted_count:
-            response.message = key
-            response.num = sorted_count[key]
-            yield response
+        response = pb2.Map(dict=ordbok)
+        return response
 
 
 def serve():

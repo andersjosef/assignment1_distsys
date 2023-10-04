@@ -13,17 +13,23 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x61ssignment1.proto\x12\x0b\x61ssignment1\"\x1a\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\"/\n\x0fMessageResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0b\n\x03num\x18\x02 \x01(\x05\x32\xa7\x01\n\x13\x46requencyCalculator\x12\x43\n\tCalculate\x12\x14.assignment1.Message\x1a\x1c.assignment1.MessageResponse\"\x00\x30\x01\x12K\n\x07\x43ombine\x12\x1c.assignment1.MessageResponse\x1a\x1c.assignment1.MessageResponse\"\x00(\x01\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x61ssignment1.proto\x12\x0b\x61ssignment1\"\x1a\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\"/\n\x0fMessageResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0b\n\x03num\x18\x02 \x01(\x05\"\\\n\x03Map\x12(\n\x04\x64ict\x18\x01 \x03(\x0b\x32\x1a.assignment1.Map.DictEntry\x1a+\n\tDictEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x05:\x02\x38\x01\x32\x8b\x01\n\x13\x46requencyCalculator\x12\x35\n\tCalculate\x12\x14.assignment1.Message\x1a\x10.assignment1.Map\"\x00\x12=\n\x07\x43ombine\x12\x1c.assignment1.MessageResponse\x1a\x10.assignment1.Map\"\x00(\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'assignment1_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
+  _MAP_DICTENTRY._options = None
+  _MAP_DICTENTRY._serialized_options = b'8\001'
   _globals['_MESSAGE']._serialized_start=34
   _globals['_MESSAGE']._serialized_end=60
   _globals['_MESSAGERESPONSE']._serialized_start=62
   _globals['_MESSAGERESPONSE']._serialized_end=109
-  _globals['_FREQUENCYCALCULATOR']._serialized_start=112
-  _globals['_FREQUENCYCALCULATOR']._serialized_end=279
+  _globals['_MAP']._serialized_start=111
+  _globals['_MAP']._serialized_end=203
+  _globals['_MAP_DICTENTRY']._serialized_start=160
+  _globals['_MAP_DICTENTRY']._serialized_end=203
+  _globals['_FREQUENCYCALCULATOR']._serialized_start=206
+  _globals['_FREQUENCYCALCULATOR']._serialized_end=345
 # @@protoc_insertion_point(module_scope)

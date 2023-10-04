@@ -14,15 +14,15 @@ class FrequencyCalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Calculate = channel.unary_stream(
+        self.Calculate = channel.unary_unary(
                 '/assignment1.FrequencyCalculator/Calculate',
                 request_serializer=assignment1__pb2.Message.SerializeToString,
-                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                response_deserializer=assignment1__pb2.Map.FromString,
                 )
-        self.Combine = channel.stream_stream(
+        self.Combine = channel.stream_unary(
                 '/assignment1.FrequencyCalculator/Combine',
                 request_serializer=assignment1__pb2.MessageResponse.SerializeToString,
-                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                response_deserializer=assignment1__pb2.Map.FromString,
                 )
 
 
@@ -44,15 +44,15 @@ class FrequencyCalculatorServicer(object):
 
 def add_FrequencyCalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Calculate': grpc.unary_stream_rpc_method_handler(
+            'Calculate': grpc.unary_unary_rpc_method_handler(
                     servicer.Calculate,
                     request_deserializer=assignment1__pb2.Message.FromString,
-                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+                    response_serializer=assignment1__pb2.Map.SerializeToString,
             ),
-            'Combine': grpc.stream_stream_rpc_method_handler(
+            'Combine': grpc.stream_unary_rpc_method_handler(
                     servicer.Combine,
                     request_deserializer=assignment1__pb2.MessageResponse.FromString,
-                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+                    response_serializer=assignment1__pb2.Map.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -75,9 +75,9 @@ class FrequencyCalculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/assignment1.FrequencyCalculator/Calculate',
+        return grpc.experimental.unary_unary(request, target, '/assignment1.FrequencyCalculator/Calculate',
             assignment1__pb2.Message.SerializeToString,
-            assignment1__pb2.MessageResponse.FromString,
+            assignment1__pb2.Map.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -92,8 +92,8 @@ class FrequencyCalculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/assignment1.FrequencyCalculator/Combine',
+        return grpc.experimental.stream_unary(request_iterator, target, '/assignment1.FrequencyCalculator/Combine',
             assignment1__pb2.MessageResponse.SerializeToString,
-            assignment1__pb2.MessageResponse.FromString,
+            assignment1__pb2.Map.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
