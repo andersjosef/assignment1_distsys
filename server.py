@@ -5,7 +5,7 @@ import assignment1_pb2_grpc as pb2_grpc
 import assignment1_pb2 as pb2
 
 
-class Assignment1Service(pb2_grpc.Assignment1Servicer):
+class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
 
     def Calculate(self, request, context):
         print("starting calculate...")
@@ -45,7 +45,7 @@ class Assignment1Service(pb2_grpc.Assignment1Servicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    pb2_grpc.add_Assignment1Servicer_to_server(Assignment1Service(), server)
+    pb2_grpc.add_FrequencyCalculatorServicer_to_server(FrequencyCalculatorService(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()

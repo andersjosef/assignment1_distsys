@@ -5,7 +5,7 @@ import assignment1_pb2 as pb2
 import glob
 
 
-class Assignment1Client(object):
+class FrequencyCalculatorClient(object):
     """
     Client for gRPC functionality
     """
@@ -19,7 +19,7 @@ class Assignment1Client(object):
             '{}:{}'.format(self.host, self.server_port))
 
         # bind the client and the server
-        self.stub = pb2_grpc.Assignment1Stub(self.channel)
+        self.stub = pb2_grpc.FrequencyCalculatorStub(self.channel)
 
 
 
@@ -35,7 +35,6 @@ def send_files():
 def run_calculate(string):
     global liste
     global client
-    # client = Assignment1Client()
     message = pb2.Message(message=string)
     responses = client.stub.Calculate(message)
     for response in responses:
@@ -55,7 +54,6 @@ def get_words_and_nums(liste):
 def run_combine():
     global liste
     global client
-    # client = Assignment1Client()
 
     responses = client.stub.Combine(get_words_and_nums(liste))
     liste = []
@@ -63,7 +61,7 @@ def run_combine():
         liste.append(response.message + ": " + str(response.num))
 
 if __name__ == '__main__':
-    client = Assignment1Client()
+    client = FrequencyCalculatorClient()
     liste = list()
     send_files()
     # print(liste)

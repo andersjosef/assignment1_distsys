@@ -5,7 +5,7 @@ import grpc
 import assignment1_pb2 as assignment1__pb2
 
 
-class Assignment1Stub(object):
+class FrequencyCalculatorStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,34 +14,20 @@ class Assignment1Stub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetServerResponse = channel.unary_stream(
-                '/assignment1.Assignment1/GetServerResponse',
-                request_serializer=assignment1__pb2.Message.SerializeToString,
-                response_deserializer=assignment1__pb2.MessageResponse.FromString,
-                )
         self.Calculate = channel.unary_stream(
-                '/assignment1.Assignment1/Calculate',
+                '/assignment1.FrequencyCalculator/Calculate',
                 request_serializer=assignment1__pb2.Message.SerializeToString,
                 response_deserializer=assignment1__pb2.MessageResponse.FromString,
                 )
         self.Combine = channel.stream_stream(
-                '/assignment1.Assignment1/Combine',
+                '/assignment1.FrequencyCalculator/Combine',
                 request_serializer=assignment1__pb2.MessageResponse.SerializeToString,
                 response_deserializer=assignment1__pb2.MessageResponse.FromString,
                 )
 
 
-class Assignment1Servicer(object):
+class FrequencyCalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
-
-    def GetServerResponse(self, request, context):
-        """A Bidirectional streaming RPC.
-
-        Accepts a stream of Message sent while a route is being traversed,
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
     def Calculate(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -56,13 +42,8 @@ class Assignment1Servicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_Assignment1Servicer_to_server(servicer, server):
+def add_FrequencyCalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetServerResponse': grpc.unary_stream_rpc_method_handler(
-                    servicer.GetServerResponse,
-                    request_deserializer=assignment1__pb2.Message.FromString,
-                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
-            ),
             'Calculate': grpc.unary_stream_rpc_method_handler(
                     servicer.Calculate,
                     request_deserializer=assignment1__pb2.Message.FromString,
@@ -75,30 +56,13 @@ def add_Assignment1Servicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'assignment1.Assignment1', rpc_method_handlers)
+            'assignment1.FrequencyCalculator', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Assignment1(object):
+class FrequencyCalculator(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def GetServerResponse(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/assignment1.Assignment1/GetServerResponse',
-            assignment1__pb2.Message.SerializeToString,
-            assignment1__pb2.MessageResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Calculate(request,
@@ -111,7 +75,7 @@ class Assignment1(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/assignment1.Assignment1/Calculate',
+        return grpc.experimental.unary_stream(request, target, '/assignment1.FrequencyCalculator/Calculate',
             assignment1__pb2.Message.SerializeToString,
             assignment1__pb2.MessageResponse.FromString,
             options, channel_credentials,
@@ -128,7 +92,7 @@ class Assignment1(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/assignment1.Assignment1/Combine',
+        return grpc.experimental.stream_stream(request_iterator, target, '/assignment1.FrequencyCalculator/Combine',
             assignment1__pb2.MessageResponse.SerializeToString,
             assignment1__pb2.MessageResponse.FromString,
             options, channel_credentials,

@@ -3,11 +3,7 @@ syntax = "proto3";
 
 package assignment1;
 
-service Assignment1 {
-  // A Bidirectional streaming RPC.
-  //
-  // Accepts a stream of Message sent while a route is being traversed,
-   rpc GetServerResponse(Message) returns (stream MessageResponse) {}
+service FrequencyCalculator {
    
    rpc Calculate(Message) returns (stream MessageResponse) {}
 
