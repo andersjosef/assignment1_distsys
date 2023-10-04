@@ -8,6 +8,8 @@ import assignment1_pb2 as pb2
 class Assignment1Service(pb2_grpc.Assignment1Servicer):
 
     def Calculate(self, request, context):
+        print("starting calculate...")
+
         message = request
         
         response = pb2.MessageResponse()
@@ -30,7 +32,6 @@ class Assignment1Service(pb2_grpc.Assignment1Servicer):
                 ordbok[msg.message] += msg.num
             else:
                 ordbok[msg.message] = msg.num
-        print(ordbok)
         
         response = pb2.MessageResponse()
         
