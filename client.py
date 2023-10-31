@@ -4,6 +4,9 @@ import assignment1_pb2 as pb2
 
 import glob
 
+# need to implement threading
+# need to implement and repeated
+
 
 class FrequencyCalculatorClient(object):
     """
@@ -34,11 +37,10 @@ def send_files():
 
 def run_calculate(string):
     global liste
-    global client
     message = pb2.Message(message=string)
     responses = client.stub.Calculate(message)
-    for response in responses:
-        liste.append(response.message + ": " + str(response.num))
+    for response in responses.word:
+        liste.append((response.message, response.num))
 
 def get_words_and_nums(liste):
     for entry in liste:
@@ -53,17 +55,24 @@ def get_words_and_nums(liste):
 
 def run_combine():
     global liste
-    global client
+    being_sent = pb2.Liste()
+    for obj in liste:
+        being_sent.word.extend([
+            pb2.MessageResponse(
+                message=obj[0],
+                num=obj[1])
+        ])
 
-    responses = client.stub.Combine(get_words_and_nums(liste))
+    responses = client.stub.Combine(being_sent)
     liste = []
-    for response in responses:
+    print(responses)
+    for response in responses.word:
         liste.append(response.message + ": " + str(response.num))
 
 if __name__ == '__main__':
     client = FrequencyCalculatorClient()
     liste = list()
     send_files()
-    # print(liste)
+    print(liste)
     run_combine()
     print("freq =", liste)
