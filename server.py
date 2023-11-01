@@ -9,9 +9,7 @@ class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
 
     def Calculate(self, request, context):
         print("starting calculate...")
-        tmp_list = []
         message = request
-        
         response = pb2.Liste()
         split_words = message.message.strip().split()
 
@@ -25,7 +23,6 @@ class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
                 pb2.MessageResponse(message=word, num=1)
                 ]
             )
-        print(response)
         return response
     
     def Combine(self, request, context):
@@ -37,13 +34,19 @@ class FrequencyCalculatorService(pb2_grpc.FrequencyCalculatorServicer):
             else:
                 ordbok[msg.message] = msg.num
         
+
+        # sorting the dict/tuple list
+        ordbok = sorted(ordbok.items(), key=lambda x:x[1])
+        ordbok.reverse()
+        ordbok = dict(ordbok)
+
+
         response = pb2.Liste()
         for key in ordbok:
             response.word.extend([
                 pb2.MessageResponse(message=key, num=ordbok[key])
             ])
         
-
         return response
 
 
