@@ -14,15 +14,15 @@ class FrequencyCalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Calculate = channel.unary_stream(
+        self.Calculate = channel.unary_unary(
                 '/assignment1.FrequencyCalculator/Calculate',
                 request_serializer=assignment1__pb2.Message.SerializeToString,
-                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                response_deserializer=assignment1__pb2.Liste.FromString,
                 )
-        self.Combine = channel.stream_stream(
+        self.Combine = channel.unary_unary(
                 '/assignment1.FrequencyCalculator/Combine',
-                request_serializer=assignment1__pb2.MessageResponse.SerializeToString,
-                response_deserializer=assignment1__pb2.MessageResponse.FromString,
+                request_serializer=assignment1__pb2.Liste.SerializeToString,
+                response_deserializer=assignment1__pb2.Liste.FromString,
                 )
 
 
@@ -35,7 +35,7 @@ class FrequencyCalculatorServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Combine(self, request_iterator, context):
+    def Combine(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -44,15 +44,15 @@ class FrequencyCalculatorServicer(object):
 
 def add_FrequencyCalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Calculate': grpc.unary_stream_rpc_method_handler(
+            'Calculate': grpc.unary_unary_rpc_method_handler(
                     servicer.Calculate,
                     request_deserializer=assignment1__pb2.Message.FromString,
-                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+                    response_serializer=assignment1__pb2.Liste.SerializeToString,
             ),
-            'Combine': grpc.stream_stream_rpc_method_handler(
+            'Combine': grpc.unary_unary_rpc_method_handler(
                     servicer.Combine,
-                    request_deserializer=assignment1__pb2.MessageResponse.FromString,
-                    response_serializer=assignment1__pb2.MessageResponse.SerializeToString,
+                    request_deserializer=assignment1__pb2.Liste.FromString,
+                    response_serializer=assignment1__pb2.Liste.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -75,14 +75,14 @@ class FrequencyCalculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/assignment1.FrequencyCalculator/Calculate',
+        return grpc.experimental.unary_unary(request, target, '/assignment1.FrequencyCalculator/Calculate',
             assignment1__pb2.Message.SerializeToString,
-            assignment1__pb2.MessageResponse.FromString,
+            assignment1__pb2.Liste.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def Combine(request_iterator,
+    def Combine(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class FrequencyCalculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/assignment1.FrequencyCalculator/Combine',
-            assignment1__pb2.MessageResponse.SerializeToString,
-            assignment1__pb2.MessageResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/assignment1.FrequencyCalculator/Combine',
+            assignment1__pb2.Liste.SerializeToString,
+            assignment1__pb2.Liste.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

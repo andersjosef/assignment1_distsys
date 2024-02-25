@@ -1,9 +1,12 @@
 import grpc
 import assignment1_pb2_grpc as pb2_grpc
 import assignment1_pb2 as pb2
+import threading
 
 import glob
 
+# need to implement threading
+# need to implement and repeated
 
 class FrequencyCalculatorClient(object):
     """
@@ -25,45 +28,45 @@ class FrequencyCalculatorClient(object):
 
 # get the files from the computer
 def send_files():
-    for file in glob.glob("input/file*.txt"):
-        print(file)
+    global liste
+    thread_list = []
+    for i, file in enumerate(glob.glob("input/file*.txt")):
         with open(file, "r") as f:
             string = f.read()
-            run_calculate(string)
+            thread_list.append(
+                threading.Thread(target=run_calculate, name=i+1, args=(string,))
+            )
+            thread_list[-1].start()
+    for th in thread_list:
+        th.join()
+    # print(thread_list)
 
 
 def run_calculate(string):
-    global liste
-    global client
     message = pb2.Message(message=string)
     responses = client.stub.Calculate(message)
-    for response in responses:
-        liste.append(response.message + ": " + str(response.num))
-
-def get_words_and_nums(liste):
-    for entry in liste:
-        message = pb2.MessageResponse()
-        entry = entry.split(": ")
-        message.message = entry[0]
-        message.num = int(entry[1])
-        yield message
-
-
-
+    for response in responses.word:
+        liste.append((response.message, response.num))
+    
 
 def run_combine():
     global liste
-    global client
+    being_sent = pb2.Liste()
+    for obj in liste:
+        being_sent.word.extend([
+            pb2.MessageResponse(
+                message=obj[0],
+                num=obj[1])
+        ])
 
-    responses = client.stub.Combine(get_words_and_nums(liste))
+    responses = client.stub.Combine(being_sent)
     liste = []
-    for response in responses:
+    for response in responses.word:
         liste.append(response.message + ": " + str(response.num))
 
 if __name__ == '__main__':
     client = FrequencyCalculatorClient()
     liste = list()
     send_files()
-    # print(liste)
     run_combine()
     print("freq =", liste)
